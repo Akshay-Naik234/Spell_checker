@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spell Checker Login</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+      backdrop-filter: blur(8px);
+      text-align: center;
+      width: 350px;
+    }
+
+    .container h1 {
+      margin-bottom: 30px;
+      font-size: 24px;
+      letter-spacing: 1px;
+      text-shadow: 0 0 8px cyan;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .input-group label {
+      font-size: 14px;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 5px cyan;
+    }
+
+    .login-btn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      width: 100%;
+      background: cyan;
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .login-btn:hover {
+      background: #00f2ff;
+      box-shadow: 0 0 10px cyan;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #ccc;
+    }
+
+    /* Floating binary background text */
+    .binary {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.1);
+      font-size: 20px;
+      animation: float 10s linear infinite;
+      user-select: none;
+    }
+
+    @keyframes float {
+      from { transform: translateY(100vh); }
+      to { transform: translateY(-100vh); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated floating text -->
+  <div class="binary" style="left: 10%;">Spell checker</div>
+  <div class="binary" style="left: 30%; animation-delay: 1s;">Sneha M</div>
+  <div class="binary" style="left: 50%; animation-delay: 2s;">Jyoti H</div>
+  <div class="binary" style="left: 70%; animation-delay: 3s;">2SR23IS043</div>
+  <div class="binary" style="left: 90%; animation-delay: 4s;">2SR23IS014</div>
+
+  <div class="container">
+    <h1>Spell Checker<br><small>Using Finite Automata</small></h1>
+  <form id="login-form" method="POST" action="/login">
+
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Enter your username" required />
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required />
+      </div>
+      <button class="login-btn" type="submit">Login</button>
+      <p id="message" style="margin-top: 10px; font-size: 14px;"></p>
+
+    </form>
+    <div class="footer">
+      © Sri Taralabalu Jagadguru Institute of Technology, Ranebennur
+    </div>
+  </div>
+window.onload = function() {
+  fetch("/login", { method: "GET" });
+};
+
+  <<script>
+document.getElementById("login-form").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+  const messageBox = document.getElementById("message");
+
+  fetch("/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      messageBox.style.color = "lime";
+      messageBox.textContent = "✅ Login successful! Redirecting...";
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1000);
+    } else {
+      messageBox.style.color = "red";
+      messageBox.textContent = "❌ Invalid username or password.";
+    }
+  })
+  .catch(err => {
+    console.error("Error:", err);
+    messageBox.style.color = "orange";
+    messageBox.textContent = "⚠️ Server error. Please try again later.";
+  });
+});
+</script>
+
+
+</body>
+</html>
